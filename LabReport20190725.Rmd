@@ -1,0 +1,61 @@
+---
+title: "LabReport"
+author: "Ye Li"
+date: "7/24/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. 
+
+We are using this document to practice a reproducible workflow that help documenting the data analysis process for sharing on GitHub, and eventually could be on repositories like Zenodo. 
+
+We will plot a simple calibration curve to show how it works. 
+
+
+
+You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Data source
+Now, let's import the data we can use to plot a calibration curve of the following chemical reaction.
+
+Fe^3+^ + SCN^-^  <-> FeSCN^2+^
+
+The data is stored under the subfolder /data. The following R code chunk will import the data and give it to a dataframe variable named cali.
+
+```{r dataimport echo = FALSE}
+#use the pound symbol to add any comments you need to. Here, we use it to give you instructions on what to do. 
+
+#find the file name of the data file under the data subfolder using the bottom right navigation panel.
+#fill in the blank in the command below to import the data.
+
+
+
+
+
+```
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+## Conclusion
+We are not learning how to use R and RStudio within such a short time frame here. But hope walking through the process can help you see the potential of using these tools in your research workflow. Let's work towards open and reproducible research together! 
