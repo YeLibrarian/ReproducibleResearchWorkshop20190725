@@ -34,25 +34,31 @@ Fe^3+^ + SCN^-^  <-> FeSCN^2+^
 
 The data is stored under the subfolder /data. The following R code chunk will import the data and give it to a dataframe variable named cali.
 
-```{r dataimport echo = FALSE}
+```{r dataimport, echo = FALSE}
 #use the pound symbol to add any comments you need to. Here, we use it to give you instructions on what to do. 
 
 #find the file name of the data file under the data subfolder using the bottom right navigation panel.
 #fill in the blank in the command below to import the data.
 
+calibFeSCN <- read.csv("data/CalibFeSCN20190725.csv")
 
-
-
+#after adding the file name, you can use the Run button on the above right of this window to test the command.
+#If it's successful, you should see the upper right panel has a new varaiable imported as calibFeSCN
+#Click on that variable to take a look. 
 
 ```
 
 
-## Including Plots
+## Plot calibration curve
 
-You can also embed plots, for example:
+Now, we will plot the imported data as a calibration curve
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r plot, echo=FALSE}
+#add the variable name to the plot function below.
+plot(calibFeSCN)
+
+
+
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
