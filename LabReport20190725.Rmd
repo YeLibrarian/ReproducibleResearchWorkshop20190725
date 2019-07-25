@@ -1,8 +1,11 @@
 ---
-title: "LabReport"
+title: "Lab Report"
 author: "Ye Li"
 date: "7/24/2019"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -15,11 +18,11 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. 
 
-We are using this document to practice a reproducible workflow that help documenting the data analysis process for sharing on GitHub, and eventually could be on repositories like Zenodo. 
+We are using this document to practice a reproducible workflow that help documenting the data analysis process for sharing on GitHub, and eventually could be shared on open repositories like Zenodo. 
 
-We will plot a simple calibration curve to show how it works. 
+*Your first task*: Replace the author name Ye Li with your name on the top section.
 
-
+Now, we will plot a simple calibration curve to show how it works. 
 
 You can embed an R code chunk like this:
 
@@ -27,12 +30,15 @@ You can embed an R code chunk like this:
 summary(cars)
 ```
 
+
 ## Data source
-Now, let's import the data we can use to plot a calibration curve of the following chemical reaction.
+First, let's import the data we can use to plot a calibration curve of the following chemical reaction.
 
 Fe^3+^ + SCN^-^  <-> FeSCN^2+^
 
-The data is stored under the subfolder /data. The following R code chunk will import the data and give it to a dataframe variable named cali.
+The data is stored under the subfolder /data. The following R code chunk will import the data and give it to a dataframe variable named calibFeSCN.
+
+(Thanks to Prof. Steve Wathen providing the dataset from a real chemistry lab.)
 
 ```{r dataimport, echo = FALSE}
 #use the pound symbol to add any comments you need to. Here, we use it to give you instructions on what to do. 
@@ -42,26 +48,62 @@ The data is stored under the subfolder /data. The following R code chunk will im
 
 calibFeSCN <- read.csv("data/CalibFeSCN20190725.csv")
 
-#after adding the file name, you can use the Run button on the above right of this window to test the command.
-#If it's successful, you should see the upper right panel has a new varaiable imported as calibFeSCN
-#Click on that variable to take a look. 
+#after adding the file name, you can use the Run button on the above right of this window to test the command. Remember to put your cursor on the line you'd like to run.
+#If it's successful, you should see the upper right panel has a new dataframe varaiable imported as calibFeSCN
+#Click on that dataframe to take a look. 
 
 ```
-
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code.
 
 ## Plot calibration curve
 
 Now, we will plot the imported data as a calibration curve
 
-```{r plot, echo=FALSE}
-#add the variable name to the plot function below.
-plot(calibFeSCN)
+```{r plot, echo=FALSE, warning=FALSE, results='hide', fig.show='asis'}
 
+#now let's fit the curve with the following functions
+#first, calculate the best fit for a line relating absorptions to concentration
+#add the dataframe name to the lm function after "data =" 
+calibfit <- lm(Abs ~ FeSCN_Conc_mol, data = calibFeSCN)
+
+#second, add the fitted curve to the plot
+#add the variable name of the fitted curve calibfit to the fitted.values below. 
+fig <- plot(calibFeSCN$FeSCN_Conc_mol, fitted.values(calibfit), type = "l",
+     main = "Calibration Curve", xlab = "Concentration", ylab = "Absorbance")
+fig <- points(calibFeSCN, col = "red")
+
+
+#this commond below is to open an image file to save the curve we plotted
+png("figures/calicurve.png")
+fig
+#close the image file
+dev.off()
+
+#select all lines under the "plot" code chunk and run it 
+#check under the figures folder to find the calicurve.png file
 
 
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## What if the raw data has error to fix? 
+
+If you identified an error in the raw data and would like to correct it, the best approach is to keep the raw data file as is and use the R script to correct it in the data analysis process. This will allow you to document how and why you modified the data. And the modification process is reproducible. 
+
+```{r fixerror, echo=FALSE}
+
+#You realize that one of the absorption was recorded wrong in the original data file - the last one should be 0.725 instead of 0.735. 
+#To correct the error, do not use text editor to edit the csv file. 
+#Instead, use the following codes to create an intermediate dataframe variable and note the reason. 
+calibFeSCN_corrected <- calibFeSCN
+calibFeSCN_corrected$Abs[6] <- 0.725  #correct a wrongly recorded data point. 
+
+#If avaialble, you can attach a picture of your original reading as a proof. 
+
+
+```
+
+
+
 
 ## Conclusion
 We are not learning how to use R and RStudio within such a short time frame here. But hope walking through the process can help you see the potential of using these tools in your research workflow. Let's work towards open and reproducible research together! 
